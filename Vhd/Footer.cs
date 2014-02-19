@@ -26,7 +26,7 @@ namespace Vhd
             CurrentSize         = LittleEndianInt64FromRaw(); 
             DiskGeometry        = DiskGeometryFromRaw(); 
             DiskType            = LittleEndianInt32FromRaw(); 
-            Checksum            = LittleEndianInt32FromRaw();
+            Checksum            = LittleEndianUInt32FromRaw();
             UniqueId            = GuidFromRaw();
             SavedState          = Raw[FieldsOffset];
         }

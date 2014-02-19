@@ -7,11 +7,11 @@ namespace Vhd
 {
     public class DiskGeometry
     {
-        private readonly    short   _cylinders;
+        private readonly    ushort  _cylinders;
         private readonly    byte    _heads;
         private readonly    byte    _sectorPerTrack;
 
-        public DiskGeometry(short cylinders, byte heads, byte sectorPerTrack)
+        public DiskGeometry(ushort cylinders, byte heads, byte sectorPerTrack)
         {
             _cylinders      = cylinders;
             _heads          = heads;

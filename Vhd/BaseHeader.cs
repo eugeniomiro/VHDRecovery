@@ -8,7 +8,7 @@ namespace Vhd
     {
         public  String  Cookie      { get; set; }
         public  Int64   DataOffset  { get; set; }
-        public  Int32   Checksum    { get; set; }
+        public  UInt32  Checksum    { get; set; }
 
         public static   readonly    DateTime    OriginTimeStamp = new DateTime(2000, 1, 1);
         public          readonly    byte[]      Raw;
@@ -38,21 +38,28 @@ namespace Vhd
             FieldsOffset += size;
             return result;
         }
+        protected UInt32 LittleEndianUInt32FromRaw()
+        {
+            var result = BitConverter.ToUInt32(Raw.Skip(FieldsOffset).Take(sizeof(UInt32)).Reverse().ToArray(), 0); // bigendian
+            FieldsOffset += sizeof(UInt32);
+            return result;
+        }
+
         protected Int32 LittleEndianInt32FromRaw()
         {
-            var result = BitConverter.ToInt32(Raw.Skip(FieldsOffset).Take(sizeof(Int32)).Reverse().ToArray(), 0);     // bigendian
+            var result = BitConverter.ToInt32(Raw.Skip(FieldsOffset).Take(sizeof(Int32)).Reverse().ToArray(), 0);   // bigendian
             FieldsOffset += sizeof(Int32);
             return result;
         }
         protected Int64 LittleEndianInt64FromRaw()
         {
-            var result = BitConverter.ToInt64(Raw.Skip(FieldsOffset).Take(sizeof(Int64)).Reverse().ToArray(), 0);     // bigendian
+            var result = BitConverter.ToInt64(Raw.Skip(FieldsOffset).Take(sizeof(Int64)).Reverse().ToArray(), 0);   // bigendian
             FieldsOffset += sizeof(Int64);
             return result;
         }
         protected DiskGeometry DiskGeometryFromRaw()
         {
-            var result = new DiskGeometry(BitConverter.ToInt16(Raw, FieldsOffset), Raw[2], Raw[3]);
+            var result = new DiskGeometry(BitConverter.ToUInt16(Raw, FieldsOffset), Raw[2], Raw[3]);
             FieldsOffset += sizeof(Int16) + 2 * sizeof(Byte);
             return result;
         }

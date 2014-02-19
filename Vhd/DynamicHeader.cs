@@ -15,15 +15,15 @@ namespace Vhd
             DataOffset          = LittleEndianInt64FromRaw();
             TableOffset         = LittleEndianInt64FromRaw();
             HeaderVersion       = LittleEndianInt32FromRaw();
-            MaxTableEntries     = LittleEndianInt32FromRaw();
-            BlockSize           = LittleEndianInt32FromRaw();
-            Checksum            = LittleEndianInt32FromRaw();
+            MaxTableEntries     = LittleEndianUInt32FromRaw();
+            BlockSize           = LittleEndianUInt32FromRaw();
+            Checksum            = LittleEndianUInt32FromRaw();
             ParentUniqueId      = GuidFromRaw();
             ParentTimeStamp     = OriginTimeStamp + new TimeSpan(0, 0, LittleEndianInt32FromRaw());
             var reserved        = LittleEndianInt32FromRaw();
             ParentUnicodeName   = UnicodeStringFromRaw(512);
             LocationEntries     = new LocationEntry[8];
-            for (int i = 0; i < LocationEntries.Length; i++) {
+            for (int i = 0; i < LocationEntries.Length; i++) {                
                 LocationEntries[i] = new LocationEntry {
                                                       PlatformCode          = Utf8StringFromRaw(4),
                                                       PlatformDataSpace     = LittleEndianInt32FromRaw(),
@@ -36,8 +36,8 @@ namespace Vhd
 
         public  long            TableOffset     { get; set; }
         public  Int32           HeaderVersion   { get; set; }
-        public  Int32           MaxTableEntries { get; set; }
-        public  Int32           BlockSize       { get; set; }
+        public  UInt32          MaxTableEntries { get; set; }
+        public  UInt32          BlockSize       { get; set; }
         public  Guid            ParentUniqueId  { get; set; }
         public  DateTime        ParentTimeStamp { get; set; }
         public  LocationEntry[] LocationEntries { get; set; }

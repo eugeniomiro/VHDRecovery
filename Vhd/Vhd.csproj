@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseHeader.cs" />
+    <Compile Include="BlockAllocationTable.cs" />
     <Compile Include="DiskGeometry.cs" />
     <Compile Include="DynamicHeader.cs" />
     <Compile Include="File.cs" />

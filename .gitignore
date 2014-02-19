@@ -5,3 +5,4 @@ Vhd/obj/
 packages/
 *.suo
 *.user
+~*.doc
