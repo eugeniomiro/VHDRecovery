@@ -75,7 +75,5 @@ namespace Vhd
                 Cookie, Features, FileFormatVersion, DataOffset, TimeStamp, CreatorApplication, CreatorVersion, CreatorHostOs,
                 OriginalSize, CurrentSize, DiskGeometry, DiskType, Checksum, UniqueId, SavedState);
         }
-
-        public static   readonly DateTime   OriginTimeStamp = new DateTime(2000, 1, 1);
     }
 }

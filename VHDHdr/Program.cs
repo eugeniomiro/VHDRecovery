@@ -17,26 +17,32 @@ namespace VHDHdr
             }
 
             var file = new File(options.FileName);
-            Console.WriteLine("Footer");
-            Console.WriteLine();
+            WriteTitle("Footer");
             Console.WriteLine(file.Footer);
 
             if (file.IsFixedSize) return;
 
-            Console.WriteLine();
-            Console.WriteLine("Backup Footer");
-            Console.WriteLine();
+            WriteLineTitle("Backup Footer");
             Console.WriteLine(file.BackupFooter);
 
-            Console.WriteLine();
-            Console.WriteLine("Dynamic Header");
-            Console.WriteLine();
+            WriteLineTitle("Dynamic Header");
             Console.WriteLine(file.DynamicHeader);
 
             if (options.FixFooter && file.Footer.IsEmpty) {
                 Console.WriteLine("Fixing '{0}' footer", options.FileName);
                 file.FixFooter();
             }
+        }
+
+        static void WriteLineTitle(String title)
+        {
+            Console.WriteLine();
+            WriteTitle(title);
+        }
+        static void WriteTitle(String title)
+        {
+            Console.WriteLine(title);
+            Console.WriteLine(new String('-', title.Length));
         }
     }
 }

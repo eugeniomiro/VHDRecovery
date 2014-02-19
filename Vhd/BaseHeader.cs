@@ -6,6 +6,13 @@ namespace Vhd
 {
     public class BaseHeader
     {
+        public  String  Cookie      { get; set; }
+        public  Int64   DataOffset  { get; set; }
+        public  Int32   Checksum    { get; set; }
+
+        public static   readonly    DateTime    OriginTimeStamp = new DateTime(2000, 1, 1);
+        public          readonly    byte[]      Raw;
+
         protected BaseHeader(byte[] raw)
         {
             if (raw == null)
@@ -20,6 +27,13 @@ namespace Vhd
         protected string Utf8StringFromRaw(int size)
         {
             var result = Encoding.UTF8.GetString(Raw, FieldsOffset, size).Trim('\0');
+
+            FieldsOffset += size;
+            return result;
+        }
+        protected String UnicodeStringFromRaw(int size)
+        {
+            var result = Encoding.Unicode.GetString(Raw, FieldsOffset, size).Trim('\0');
 
             FieldsOffset += size;
             return result;
@@ -50,11 +64,5 @@ namespace Vhd
         }
 
         protected               Int32   FieldsOffset;
-        public      readonly    byte[]  Raw;
-
-        public String Cookie { get; set; }
-        public Int64 DataOffset { get; set; }
-        public Int32 Checksum { get; set; }
-                
     }
 }
