@@ -1,0 +1,7 @@
+VHDHdr/bin/
+VHDHdr/obj/
+Vhd/bin/
+Vhd/obj/
+packages/
+*.suo
+*.user
