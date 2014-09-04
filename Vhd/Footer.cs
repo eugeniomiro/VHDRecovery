@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Vhd
 {
@@ -71,6 +72,19 @@ namespace Vhd
                                  "SavedState = {14}",
                 Cookie, Features, FileFormatVersion, DataOffset, TimeStamp, CreatorApplication, CreatorVersion, CreatorHostOs,
                 OriginalSize, CurrentSize, DiskGeometry, DiskType, Checksum, UniqueId, SavedState);
+        }
+
+        public static Footer Load(Stream f)
+        {
+            var footerBuffer = new byte[Size];
+            var bytesRead = f.Read(footerBuffer, 0, footerBuffer.Length);
+
+            if (bytesRead < Size)
+                throw new ApplicationException("could not read footer backup");
+
+            // read the backupFooter
+            var footer = new Footer(footerBuffer);
+            return footer;
         }
     }
 }

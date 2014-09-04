@@ -5,14 +5,12 @@ namespace Vhd
 {
     public class File
     {
-        private readonly    string          _file;
-
         public File(string file)
         {
             _file = file;
 
             using (var f = System.IO.File.OpenRead(_file)) {
-                LoadFooter(f);
+                LoadMainFooter(f);
 
                 if (IsFixedSize)
                     return;
@@ -22,13 +20,7 @@ namespace Vhd
                 LoadBlockAllocationTable(f);
             }
         }
-
-        public  Footer                  Footer                  { get; private set; }
-        public  Footer                  BackupFooter            { get; private set; }
-        public  DynamicHeader           DynamicHeader           { get; private set; }
-        public  BlockAllocationTable    BlockAllocationTable    { get; private set; }
-
-
+        
         public void FixFooter()
         {
             // fix footer with backup header
@@ -48,7 +40,12 @@ namespace Vhd
             get { return Footer.DiskType == 2; }
         }
 
-        private void LoadBlockAllocationTable(Stream f)
+        public  Footer                  Footer                  { get; private set; }
+        public  Footer                  BackupFooter            { get; private set; }
+        public  DynamicHeader           DynamicHeader           { get; private set; }
+        public  BlockAllocationTable    BlockAllocationTable    { get; private set; }
+
+        void LoadBlockAllocationTable(Stream f)
         {
             f.Seek(DynamicHeader.TableOffset, SeekOrigin.Begin);
 
@@ -71,7 +68,7 @@ namespace Vhd
             BlockAllocationTable = new BlockAllocationTable(buffer, DynamicHeader.MaxTableEntries, DynamicHeader.BlockSize);
         }
 
-        private void LoadDynamicHeader(Stream f)
+        void LoadDynamicHeader(Stream f)
         {
             var dynamicHeaderBuffer = new byte[DynamicHeader.Size];
             var bytesRead           = f.Read(dynamicHeaderBuffer, 0, DynamicHeader.Size);
@@ -83,33 +80,19 @@ namespace Vhd
         }
 
         // read first copy of the footer at the beggining of the file
-        private void LoadBackupFooter(Stream f)
+        void LoadBackupFooter(Stream f)
         {
             f.Seek(0, SeekOrigin.Begin);
-
-            var footerBuffer    = new byte[Footer.Size];
-            var bytesRead       = f.Read(footerBuffer, 0, footerBuffer.Length);
-
-            if (bytesRead < Footer.Size)
-                throw new ApplicationException("could not read footer backup");
-
-            // read the backupFooter
-            BackupFooter = new Footer(footerBuffer);
+            BackupFooter = Footer.Load(f);
         }
 
         // go to the end of the file and look for the footer
-        private void LoadFooter(Stream f)
+        void LoadMainFooter(Stream f)
         {
             f.Seek(-Footer.Size, SeekOrigin.End);
-
-            var footerBuffer    = new byte[Footer.Size];
-            var bytesRead       = f.Read(footerBuffer, 0, footerBuffer.Length);
-
-            if (bytesRead < Footer.Size)
-                throw new ApplicationException("could not read footer");
-
-            // read footer content
-            Footer = new Footer(footerBuffer);
+            Footer = Footer.Load(f);
         }
+
+        readonly    string          _file;
     }
 }
