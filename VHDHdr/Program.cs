@@ -4,6 +4,9 @@ using Vhd;
 
 namespace VHDHdr
 {
+    using Annotations;
+
+    [UsedImplicitly]
     class Program
     {
         static void Main(string[] args)

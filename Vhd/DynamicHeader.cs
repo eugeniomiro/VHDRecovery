@@ -4,8 +4,6 @@ namespace Vhd
 {
     public class DynamicHeader : BaseHeader
     {
-        public  const Int32  Size = 1024;
-
         public DynamicHeader(byte[] buffer)
             : base(buffer)
         {
@@ -34,13 +32,15 @@ namespace Vhd
             }
         }
 
-        public  long            TableOffset     { get; set; }
-        public  Int32           HeaderVersion   { get; set; }
-        public  UInt32          MaxTableEntries { get; set; }
-        public  UInt32          BlockSize       { get; set; }
-        public  Guid            ParentUniqueId  { get; set; }
-        public  DateTime        ParentTimeStamp { get; set; }
-        public  LocationEntry[] LocationEntries { get; set; }
+        public static DynamicHeader Load(System.IO.Stream f)
+        {
+            var dynamicHeaderBuffer = new byte[Size];
+            var bytesRead           = f.Read(dynamicHeaderBuffer, 0, DynamicHeader.Size);
+
+            if (bytesRead < Size)
+                throw new ApplicationException("could not read dynamic header");
+            return new DynamicHeader(dynamicHeaderBuffer);
+        }
 
         public override string ToString()
         {
@@ -62,6 +62,15 @@ namespace Vhd
             return result;
         }
 
-        public string ParentUnicodeName { get; set; }
+        public  const Int32  Size = 1024;
+
+        public Int64 TableOffset { get; set; }
+        public  Int32           HeaderVersion       { get; set; }
+        public  UInt32          MaxTableEntries     { get; set; }
+        public  UInt32          BlockSize           { get; set; }
+        public  Guid            ParentUniqueId      { get; set; }
+        public  DateTime        ParentTimeStamp     { get; set; }
+        public  LocationEntry[] LocationEntries     { get; set; }
+        public  String          ParentUnicodeName   { get; set; }
     }
 }
