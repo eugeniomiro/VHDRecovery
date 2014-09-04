@@ -5,8 +5,6 @@ namespace Vhd
 {
     public class Footer : BaseHeader
     {
-        public  const Int32  Size = 512;
-
         public Footer(byte[] buffer)
             : base(buffer)
         {
@@ -33,25 +31,18 @@ namespace Vhd
         {
             get
             {
-                return String.IsNullOrWhiteSpace(Cookie) && Features == 0 && FileFormatVersion == 0 && DataOffset == 0 && 
-                       TimeStamp == OriginTimeStamp && String.IsNullOrWhiteSpace(CreatorApplication) && CreatorVersion == 0 &&
-                       String.IsNullOrWhiteSpace(CreatorHostOs) && OriginalSize == 0 && CurrentSize == 0;
+                return String.IsNullOrWhiteSpace(Cookie) 
+                    && Features == 0 
+                    && FileFormatVersion == 0 
+                    && DataOffset == 0 
+                    && TimeStamp == OriginTimeStamp 
+                    && String.IsNullOrWhiteSpace(CreatorApplication) 
+                    && CreatorVersion == 0 
+                    && String.IsNullOrWhiteSpace(CreatorHostOs) 
+                    && OriginalSize == 0 
+                    && CurrentSize == 0;
             }
         }
-
-        public Int32 Features { get; set; }
-        public Int32 FileFormatVersion { get; set; }
-        public DateTime TimeStamp { get; set; }
-        public String CreatorApplication { get; set; }
-        public Int32 CreatorVersion { get; set; }
-        public String CreatorHostOs { get; set; }
-        public Int64 OriginalSize { get; set; }
-        public Int64 CurrentSize { get; set; }
-        public DiskGeometry DiskGeometry { get; set; }
-        public Int32 DiskType { get; set; }
-        public Guid UniqueId { get; set; }
-        public Byte SavedState { get; set; }
-        public Byte[] Reserved { get; set; }
 
         public override string ToString()
         {
@@ -86,5 +77,21 @@ namespace Vhd
             var footer = new Footer(footerBuffer);
             return footer;
         }
+
+        public  const Int32  Size = 512;
+
+        public  Int32           Features            { get; set; }
+        public  Int32           FileFormatVersion   { get; set; }
+        public  DateTime        TimeStamp           { get; set; }
+        public  String          CreatorApplication  { get; set; }
+        public  Int32           CreatorVersion      { get; set; }
+        public  String          CreatorHostOs       { get; set; }
+        public  Int64           OriginalSize        { get; set; }
+        public  Int64           CurrentSize         { get; set; }
+        public  DiskGeometry    DiskGeometry        { get; set; }
+        public  Int32           DiskType            { get; set; }
+        public  Guid            UniqueId            { get; set; }
+        public  Byte            SavedState          { get; set; }
+        public  Byte[]          Reserved            { get; set; }
     }
 }

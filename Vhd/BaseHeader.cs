@@ -6,12 +6,15 @@ namespace Vhd
 {
     public class BaseHeader
     {
-        public  String  Cookie      { get; set; }
-        public  Int64   DataOffset  { get; set; }
-        public  UInt32  Checksum    { get; set; }
+        public  String      Cookie      { get; set; }
+        public  Int64       DataOffset  { get; set; }
+        public  UInt32      Checksum    { get; set; }
 
-        public static   readonly    DateTime    OriginTimeStamp = new DateTime(2000, 1, 1);
-        public          readonly    byte[]      Raw;
+        static  readonly
+        public  DateTime    OriginTimeStamp = new DateTime(2000, 1, 1);
+
+        readonly
+        public  byte[]      Raw;
 
         protected BaseHeader(byte[] raw)
         {

@@ -70,13 +70,7 @@ namespace Vhd
 
         void LoadDynamicHeader(Stream f)
         {
-            var dynamicHeaderBuffer = new byte[DynamicHeader.Size];
-            var bytesRead           = f.Read(dynamicHeaderBuffer, 0, DynamicHeader.Size);
-
-            if (bytesRead < DynamicHeader.Size)
-                throw new ApplicationException("could not read dynamic header");
-
-            DynamicHeader = new DynamicHeader(dynamicHeaderBuffer);
+            DynamicHeader = DynamicHeader.Load(f);
         }
 
         // read first copy of the footer at the beggining of the file
