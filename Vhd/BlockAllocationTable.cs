@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Vhd
 {
     public class BlockAllocationTable
@@ -14,6 +15,9 @@ namespace Vhd
 
             _validEntries = maxEntries;
             _blockSize = blockSize;
+            TotalSize = _validEntries * blockSize;
         }
+
+        public Int64 TotalSize { get; private set; }
     }
 }

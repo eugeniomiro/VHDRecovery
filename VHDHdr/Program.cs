@@ -30,10 +30,15 @@ namespace VHDHdr
             WriteLineTitle("Dynamic Header");
             Console.WriteLine(file.DynamicHeader);
 
+            WriteLineTitle("Total Size");
+            Console.WriteLine(file.BlockAllocationTable.TotalSize);
+            
             if (options.FixFooter && file.Footer.IsEmpty) {
                 Console.WriteLine("Fixing '{0}' footer", options.FileName);
                 file.FixFooter();
             }
+
+            // write raw file? then write raw data!
         }
 
         static void WriteLineTitle(String title)
